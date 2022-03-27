@@ -69,6 +69,8 @@ def go_back():
     GPIO.output(inL2,GPIO.HIGH)
     GPIO.output(inR1,GPIO.LOW)
     GPIO.output(inR2,GPIO.HIGH)
+    speedL.ChangeDutyCycle(25)
+    speedR.ChangeDutyCycle(25)
 def turn_degrees(degree):
     if(abs(degree)<10):
         pass
@@ -79,7 +81,7 @@ def turn_degrees(degree):
         else:
             turn_right()
             time.sleep(1)
-
+            
 def follow(distance,err_prev, err_total):
     Kp=1
     KD=0
@@ -147,14 +149,24 @@ def distance_right():
     distance = (TimeElapsed * 34300) / 2
  
     return distance_right 
-
-
+def avoid_obs(avoidance_limit):
+    if(distance_left()<avoidance_limit):
+        go_back()
+        time.sleep(0.5)
+        turn_right()
+        time.sleep(0.5)
+    if(distance_right()<avoidance_limit):
+        go_back()
+        time.sleep(0.5)
+        turn_left()
+        time.sleep(0.5)
 
 if __name__ == '__main__':
     try:
         while True:
             degree=0
             distance=0
+            avoid_obs(5)
             turn_degrees(degree)
             follow(distance)
             time.sleep(1)
