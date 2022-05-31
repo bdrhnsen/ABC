@@ -188,7 +188,7 @@ while True:
 				#Section to send dist and angle to Arduino
 			dist_str = str(dist)
 			angle_str = str(angle)
-			send_str = dist_str + "," + angle_str + direct_str + "\n"
+			send_str = dist_str + "," + angle_str + "*" direct_str + "\n"
 			print(send_str)
 			ser.flush()
 			ser.write(send_str.encode('utf-8'))
